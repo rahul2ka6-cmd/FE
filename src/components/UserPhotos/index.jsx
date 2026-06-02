@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Card, CardContent, CardMedia, Divider } from "@mui/material";
+import {
+  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  Divider,
+} from "@mui/material";
 import { useParams, Link } from "react-router-dom";
 import fetchModel from "../../lib/fetchModelData";
 import "./styles.css";
@@ -52,11 +58,23 @@ const UserPhotos = () => {
                 photo.comments.map((comment) => (
                   <div
                     key={comment._id}
-                    style={{ marginTop: 8, paddingLeft: 8, borderLeft: "2px solid #ccc" }}
+                    style={{
+                      marginTop: 8,
+                      paddingLeft: 8,
+                      borderLeft: "2px solid #ccc",
+                    }}
                   >
-                    <Link to={`/users/${comment.user._id}`} style={{ fontWeight: "bold" }}>
-                      {comment.user.first_name} {comment.user.last_name}
-                    </Link>
+                    {comment.user ? (
+                      <Link
+                        to={`/users/${comment.user._id}`}
+                        style={{ fontWeight: "bold" }}
+                      >
+                        {comment.user.first_name} {comment.user.last_name}
+                      </Link>
+                    ) : (
+                      <span style={{ fontWeight: "bold" }}>Unknown User</span>
+                    )}
+
                     <Typography variant="body2" color="text.secondary">
                       {formatDate(comment.date_time)}
                     </Typography>
