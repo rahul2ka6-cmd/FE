@@ -10,6 +10,8 @@ import { useParams, Link } from "react-router-dom";
 import fetchModel from "../../lib/fetchModelData";
 import "./styles.css";
 
+import BASE_URL from "../../lib/config";
+
 const formatDate = (dateString) => new Date(dateString).toLocaleString();
 
 const UserPhotos = () => {
@@ -40,7 +42,7 @@ const UserPhotos = () => {
             <CardMedia
               component="img"
               height="300"
-              image={`/images/${photo.file_name}`}
+              image={`${BASE_URL}/images/${photo.file_name}`}
               style={{ objectFit: "contain" }}
             />
             <CardContent>
