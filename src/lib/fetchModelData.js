@@ -6,6 +6,11 @@ import BASE_URL from './config';
  * On 401: clear local state and reload to show login.
  */
 const fetchModel = async (url) => {
+  if (url.includes('undefined') || url.includes('null')) {
+    console.warn('Blocked fetch to invalid URL:', url);
+    return Promise.reject(new Error('Invalid URL: contains undefined or null'));
+  }
+
   const token = localStorage.getItem('token');
 
   const headers = {};
