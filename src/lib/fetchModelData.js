@@ -1,12 +1,36 @@
-import BASE_URL from "./config";
+import BASE_URL from './config';
 
-function fetchModel(url) {
-  return fetch(BASE_URL + url).then((response) => {
-    if (!response.ok) {
-      throw new Error(`Request failed: ${response.status}`);
-    }
-    return response.json();
+/**
+ * Fetch data from backend with JWT authentication.
+ * Includes Authorization header with JWT token from localStorage.
+ * On 401: clear local state and reload to show login.
+ */
+const fetchModel = async (url) => {
+  const token = localStorage.getItem('token');
+
+  const headers = {};
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  const response = await fetch(`${BASE_URL}${url}`, {
+    credentials: 'include',
+    headers: headers,
   });
-}
+
+  if (response.status === 401) {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    window.location.reload();
+    throw new Error('Unauthorized - Please login');
+  }
+
+  if (!response.ok) {
+    throw new Error(`HTTP error ${response.status}`);
+  }
+
+  return response.json();
+  
+};
 
 export default fetchModel;
