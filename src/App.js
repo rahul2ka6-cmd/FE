@@ -85,7 +85,7 @@ const App = () => {
                   <Routes>
                     <Route path="/" element={<Navigate to="/users" replace />} />
                     <Route path="/users/:userId" element={<UserDetail />} />
-                    <Route path="/photos/:userId" element={<UserPhotos />} />
+                    <Route path="/photos/:userId" element={<UserPhotos currentUser={user} />} />
                     <Route path="/users" element={<UserList />} />
                   </Routes>
                 </Paper>
