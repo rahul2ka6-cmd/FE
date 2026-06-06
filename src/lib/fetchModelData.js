@@ -25,7 +25,8 @@ const fetchModel = async (url) => {
   if (response.status === 401) {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
-    window.location.reload();
+    // Notify App component to update React state
+    window.dispatchEvent(new Event('auth-expired'));
     throw new Error('Unauthorized - Please login');
   }
 

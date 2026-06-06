@@ -28,8 +28,12 @@ const UserPhotos = ({ currentUser }) => {
 
   useEffect(() => {
     if (userId && userId !== "undefined") {
-      fetchModel(`/user/${userId}`).then((data) => setUser(data));
-      fetchModel(`/photosOfUser/${userId}`).then((data) => setPhotos(data));
+      fetchModel(`/user/${userId}`)
+        .then((data) => { if (data) setUser(data); })
+        .catch(() => {});
+      fetchModel(`/photosOfUser/${userId}`)
+        .then((data) => { if (Array.isArray(data)) setPhotos(data); })
+        .catch(() => {});
     }
   }, [userId]);
 

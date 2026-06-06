@@ -8,7 +8,15 @@ const UserList = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetchModel("/user/list").then((data) => setUsers(data));
+    fetchModel("/user/list")
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setUsers(data);
+        }
+      })
+      .catch(() => {
+        // silently fail - user likely not logged in
+      });
   }, []);
 
   return (

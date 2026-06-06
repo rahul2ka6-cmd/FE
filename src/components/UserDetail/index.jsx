@@ -10,7 +10,9 @@ const UserDetail = () => {
 
   useEffect(() => {
     if (userId && userId !== "undefined") {
-      fetchModel(`/user/${userId}`).then((data) => setUser(data));
+      fetchModel(`/user/${userId}`)
+        .then((data) => { if (data) setUser(data); })
+        .catch(() => {});
     }
   }, [userId]);
 

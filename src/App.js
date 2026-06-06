@@ -1,6 +1,6 @@
 import './App.css';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Paper } from '@mui/material';
 import { BrowserRouter as Router, Route, Routes, Navigate, useParams } from 'react-router-dom';
 
@@ -43,6 +43,15 @@ const App = () => {
       return null;
     }
   });
+
+  // Listen for auth expiration (401 from backend)
+  useEffect(() => {
+    const handleAuthExpired = () => {
+      setUser(null);
+    };
+    window.addEventListener('auth-expired', handleAuthExpired);
+    return () => window.removeEventListener('auth-expired', handleAuthExpired);
+  }, []);
 
   const handleLoginSuccess = (userData) => {
     // userData includes { _id, first_name, last_name, token }
