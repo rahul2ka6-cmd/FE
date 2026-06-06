@@ -27,8 +27,10 @@ const UserPhotos = ({ currentUser }) => {
   const [isSubmitting, setIsSubmitting] = useState({});
 
   useEffect(() => {
-    fetchModel(`/user/${userId}`).then((data) => setUser(data));
-    fetchModel(`/photosOfUser/${userId}`).then((data) => setPhotos(data));
+    if (userId && userId !== "undefined") {
+      fetchModel(`/user/${userId}`).then((data) => setUser(data));
+      fetchModel(`/photosOfUser/${userId}`).then((data) => setPhotos(data));
+    }
   }, [userId]);
 
   const handleCommentSubmit = async (photoId) => {

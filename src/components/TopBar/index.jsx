@@ -15,7 +15,7 @@ const TopBar = ({ user, onLogout }) => {
 
     const parts = location.pathname.split("/").filter(Boolean);
 
-    if (parts.length === 2 && parts[1]) {
+    if (parts.length === 2 && parts[1] && parts[1] !== "undefined") {
       const userId = parts[1];
       fetchModel(`/user/${userId}`)
         .then((userData) => {
