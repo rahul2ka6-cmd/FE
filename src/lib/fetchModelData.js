@@ -7,8 +7,7 @@ import BASE_URL from './config';
  */
 const fetchModel = async (url) => {
   if (url.includes('undefined') || url.includes('null')) {
-    console.warn('Blocked fetch to invalid URL:', url);
-    return url.includes('photos') ? Promise.resolve([]) : Promise.resolve(null);
+    return url.includes('photos') ? [] : null;
   }
 
   const token = localStorage.getItem('token');

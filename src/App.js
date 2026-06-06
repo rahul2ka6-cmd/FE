@@ -2,7 +2,7 @@ import './App.css';
 
 import React, { useState } from 'react';
 import { Grid, Paper } from '@mui/material';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useParams } from 'react-router-dom';
 
 import TopBar from './components/TopBar';
 import UserDetail from './components/UserDetail';
@@ -10,6 +10,23 @@ import UserList from './components/UserList';
 import UserPhotos from './components/UserPhotos';
 import LoginRegister from './components/LoginRegister';
 import BASE_URL from './lib/config';
+
+// Wrapper to redirect if userId is invalid (undefined, null, etc.)
+const ValidUserDetail = () => {
+  const { userId } = useParams();
+  if (!userId || userId === 'undefined' || userId === 'null') {
+    return <Navigate to="/users" replace />;
+  }
+  return <UserDetail />;
+};
+
+const ValidUserPhotos = ({ currentUser }) => {
+  const { userId } = useParams();
+  if (!userId || userId === 'undefined' || userId === 'null') {
+    return <Navigate to="/users" replace />;
+  }
+  return <UserPhotos currentUser={currentUser} />;
+};
 
 const App = () => {
   // Restore user from localStorage on page load
@@ -84,9 +101,10 @@ const App = () => {
                 <Paper className="main-grid-item">
                   <Routes>
                     <Route path="/" element={<Navigate to="/users" replace />} />
-                    <Route path="/users/:userId" element={<UserDetail />} />
-                    <Route path="/photos/:userId" element={<UserPhotos currentUser={user} />} />
+                    <Route path="/users/:userId" element={<ValidUserDetail />} />
+                    <Route path="/photos/:userId" element={<ValidUserPhotos currentUser={user} />} />
                     <Route path="/users" element={<UserList />} />
+                    <Route path="*" element={<Navigate to="/users" replace />} />
                   </Routes>
                 </Paper>
               </Grid>
